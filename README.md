@@ -13,3 +13,7 @@ It currently handles:
 ### Usage
 
 `mm cp src dst` will run `cp src dst`. Unless `dst` is newer than `src`. Then it won't
+
+### Roadmap
+
+- `tar`
