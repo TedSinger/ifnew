@@ -8,6 +8,10 @@ import (
 
 type Wget struct{}
 
+func (w *Wget) Name() string {
+	return "wget"
+}
+
 func (w *Wget) Parse(args []string) (MatchResult, bool) {
 	rootCmd := &cobra.Command{
 		Use: "wget",

@@ -13,3 +13,12 @@ func TestTar(t *testing.T) {
 	}
 	TestParse(&Tar{}, tests, t)
 }
+
+func TestTarValidateTestCase(t *testing.T) {
+	tests := []TestCase{
+		{[]string{"-c", "-f", "archive.tar", "file1.txt", "file2.txt"}, []string{"file1.txt", "file2.txt"}, []string{"archive.tar"}, true},
+		{[]string{"cf", "archive.tar", "file1.txt", "file2.txt"}, []string{"file1.txt", "file2.txt"}, []string{"archive.tar"}, true},
+		{[]string{"x", "f", "archive.tar", "file1.txt", "file2.txt"}, []string{"archive.tar"}, []string{"file1.txt", "file2.txt"}, true},
+	}
+	TestValidateTestCase(&Tar{}, tests, t)
+}

@@ -7,6 +7,10 @@ import (
 
 type Tar struct{}
 
+func (t *Tar) Name() string {
+	return "tar"
+}
+
 func (t *Tar) Parse(args []string) (MatchResult, bool) {
 	rootCmd := &cobra.Command{
 		Use: "tar",

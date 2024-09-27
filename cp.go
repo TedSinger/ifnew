@@ -6,6 +6,10 @@ import (
 
 type Cp struct{}
 
+func (c *Cp) Name() string {
+	return "cp"
+}
+
 func (c *Cp) Parse(args []string) (MatchResult, bool) {
 	rootCmd := &cobra.Command{
 		Use: "cp",

@@ -6,6 +6,10 @@ import (
 
 type Curl struct{}
 
+func (c *Curl) Name() string {
+	return "curl"
+}
+
 func (c *Curl) Parse(args []string) (MatchResult, bool) {
 	rootCmd := &cobra.Command{
 		Use: "curl",
