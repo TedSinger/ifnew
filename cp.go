@@ -24,6 +24,9 @@ func (c *Cp) Parse(args []string) (MatchResult, bool) {
 	}
 
 	remainingArgs := rootCmd.Flags().Args()
+	if len(remainingArgs) < 2 {
+		return MatchResult{}, false
+	}
 	targetDir, _ := rootCmd.Flags().GetString("target")
 
 	var source_files, target_files []string

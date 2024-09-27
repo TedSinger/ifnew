@@ -2,7 +2,8 @@ package main
 
 import (
 	"github.com/spf13/cobra"
-	"strings"
+	"path"
+	"net/url"
 )
 
 type Wget struct{}
@@ -15,6 +16,8 @@ func (w *Wget) Parse(args []string) (MatchResult, bool) {
 
 	rootCmd.Flags().BoolP("quiet", "q", false, "quiet mode")
 	rootCmd.Flags().StringP("output-document", "O", "", "write documents to <file>")
+	rootCmd.Flags().StringP("url", "u", "", "specify a URL to download")
+	rootCmd.Flags().StringP("output-file", "o", "", "log messages to <file>")
 
 	rootCmd.SetArgs(args)
 	if err := rootCmd.Execute(); err != nil {
@@ -25,21 +28,33 @@ func (w *Wget) Parse(args []string) (MatchResult, bool) {
 		return MatchResult{}, false
 
 	}
-	url := args[0]
-
-	outputDocument, _ := rootCmd.Flags().GetString("output-document")
-
-	var source_files, target_files []string
-	source_files = []string{}
-	if outputDocument == "" {
-		parts := strings.Split(url, "/")
-		defaultOutputDocument := parts[len(parts)-1]
-		target_files = []string{defaultOutputDocument}
-	} else {
-		target_files = []string{outputDocument}
+	urlStr, _ := rootCmd.Flags().GetString("url")
+	if urlStr == "" {
+		urlStr = args[0]
 	}
 
-	return MatchResult{SourceFiles: source_files, TargetFiles: target_files}, true
+	outputDocument, _ := rootCmd.Flags().GetString("output-document")
+	outputFile, _ := rootCmd.Flags().GetString("output-file")
+
+	target_files := []string{}
+	if outputDocument == "" {
+		parsedUrl, err := url.Parse(urlStr)
+		if err != nil {
+			return MatchResult{}, false
+		}
+		defaultOutputDocument := path.Base(parsedUrl.Path)
+		if defaultOutputDocument == "" || defaultOutputDocument == "/" || defaultOutputDocument == "." {
+			defaultOutputDocument = "index.html"
+		}
+		target_files = append(target_files, defaultOutputDocument)
+	} else {
+		target_files = append(target_files, outputDocument)
+	}
+	if outputFile != "" {
+		target_files = append(target_files, outputFile)
+	}
+
+	return MatchResult{SourceFiles: []string{}, TargetFiles: target_files}, true
 }
 
 var _ Command = &Wget{}
