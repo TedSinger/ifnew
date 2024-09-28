@@ -2,13 +2,14 @@
 
 ### Don't redo that command
 
-Like `make` and every other sane build tool, `ifnew` skips a command if its results are newer than its sources. Unlike a build tool, `ifnew` is not a build tool. Just a prefix for a shell command
+Like `make` and every other sane build tool, `ifnew` does a command only if its sources are newer than its targets. Unlike a build tool, `ifnew` is not a build tool. Just a prefix for a shell command
 
 It currently handles:
 
 - `cp`
 - `curl`
 - `wget`
+- `tar`
 
 ### Usage
 
@@ -16,4 +17,4 @@ It currently handles:
 
 ### Roadmap
 
-- `tar`
+- `gzip`

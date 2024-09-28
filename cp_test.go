@@ -3,10 +3,10 @@ package main
 import "testing"
 
 func TestCp(t *testing.T) {
-	tests := []TestCase{
-		{[]string{"src.txt", "dst.txt"}, []string{"src.txt"}, []string{"dst.txt"}, true},
-		{[]string{"-t", "targetDir", "src1.txt", "src2.txt"}, []string{"src1.txt", "src2.txt"}, []string{"targetDir"}, true},
-		{[]string{}, nil, nil, false},
+	tests := []HumanReadableTestCase{
+		{"cp src.txt dst.txt", "src.txt", "dst.txt", true},
+		{"cp -t targetDir src1.txt src2.txt", "src1.txt src2.txt", "targetDir", true},
+		{"cp", "", "", false},
 	}
 	TestParse(&Cp{}, tests, t)
 }
