@@ -1,4 +1,4 @@
-module github.com/TedSinger/minimake
+module github.com/TedSinger/ifnew
 
 go 1.18
 
